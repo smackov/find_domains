@@ -1,0 +1,7 @@
+# Postgresql settings
+postgres=# create user find_domains with password 'find_domains';
+CREATE ROLE
+postgres=# alter role find_domains set client_encoding to 'utf8';
+ALTER ROLE
+postgres=# create database find_domains_db owner find_domains;
+CREATE DATABASE

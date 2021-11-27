@@ -1,4 +1,10 @@
+import logging
+
 from django.db import models
+from django.utils import timezone
+
+
+logger = logging.getLogger(__name__)
 
 
 class Domain(models.Model):
@@ -21,3 +27,12 @@ class Domain(models.Model):
         return (f'{self.full_domain_name}: '
                 f'whois={self.whois_check_result}, '
                 f'request={self.request_check_result}')
+
+    def set_request_check(self, result: bool):
+        """
+        Set the result of domain request checking.
+        """
+        logger.info(f'{self.full_domain_name}: set request result={result}')
+        self.request_check_result = result
+        self.request_check_date = timezone.now().date()
+        self.save()

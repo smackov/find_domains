@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Extension apps
+    'django_celery_results',
+    'django_celery_beat',
+    # Django apps
     'checker',
 ]
 
@@ -128,3 +132,8 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# CELERY SETTINGS
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/1"

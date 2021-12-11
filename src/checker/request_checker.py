@@ -1,9 +1,7 @@
 import logging
 import socket
 
-from celery import shared_task
-
-from ..models import Domain
+from .models import Domain
 
 
 logger = logging.getLogger(__name__)
@@ -11,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 def resolve_domain(domain: Domain):
     """
-    Try resolve domain name.
+    Попробовать получить IP по переданному домену.
     """
     try:
         ip = socket.gethostbyname(domain.full_domain_name)
@@ -20,11 +18,3 @@ def resolve_domain(domain: Domain):
     except socket.gaierror:
         logger.info(f'{domain.full_domain_name}: has not been resolved')
         domain.set_request_check(False)
-
-
-@shared_task()
-def resolve_domains():
-    logger.info(f'Start {resolve_domains.__name__} task')
-    domains_should_be_checked = Domain.objects.filter(request_check_result__isnull=True)[:10]
-    for domain in domains_should_be_checked:
-        resolve_domain(domain)

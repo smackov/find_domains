@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django_celery_beat',
     # Django apps
     'checker',
+    'creator',
 ]
 
 MIDDLEWARE = [

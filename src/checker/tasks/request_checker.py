@@ -1,13 +1,15 @@
 import logging
 import socket
 
+from celery import shared_task
+
 from ..models import Domain
 
 
 logger = logging.getLogger(__name__)
 
 
-def check(domain: Domain):
+def resolve_domain(domain: Domain):
     """
     Try resolve domain name.
     """
@@ -20,8 +22,9 @@ def check(domain: Domain):
         domain.set_request_check(False)
 
 
-def request_checker():
-    logger.info(f'Start {request_checker.__name__} task')
+@shared_task()
+def resolve_domains():
+    logger.info(f'Start {resolve_domains.__name__} task')
     domains_should_be_checked = Domain.objects.filter(request_check_result__isnull=True)[:10]
     for domain in domains_should_be_checked:
-        check(domain)
+        resolve_domain(domain)

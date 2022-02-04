@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    command: poetry run /usr/src/app/manage.py runserver 0.0.0.0:8080
+    volumes:
+      - ./src/:/usr/src/app/
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - "db"
+  db:
+    image: postgres:14
+    volumes:
+      - find_domain_pgdata:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1
+      - POSTGRES_DB=find_domains
+volumes:
+  find_domain_pgdata:

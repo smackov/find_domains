@@ -2,7 +2,7 @@ import logging
 
 from celery import shared_task
 
-from .request_checker import resolve_domain
+from engine.services.checker.resolver import resolve_domain
 from .models import Domain
 
 
